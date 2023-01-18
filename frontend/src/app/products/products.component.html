@@ -1,0 +1,62 @@
+<div class="container mt-5">
+  <ng-template #errors>
+    <div class="d-flex align-items-center justify-content-center">
+      <div class="p-3 text-danger bg-warning text-center fw-bolder">
+        {{errorMessage}}
+      </div>
+    </div>
+  </ng-template>
+  <div class="card p-1" *ngIf="products; else errors">
+    <div class="m-3 p-2 d-flex align-items-center justify-content-center">
+      <form class="w-35" [formGroup]="searchFormGroup" (ngSubmit)="searchProductHandler()">
+        <div class="input-group">
+          <label class="input-group-text bg-white">Keyword</label>
+          <input type="text" class="form-control" formControlName="keyword"/>
+          <button class="btn btn-success" type="submit">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+    <table class="table">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col"  class="text-center">#</th>
+          <th scope="col"  class="text-center">Name</th>
+          <th scope="col"  class="text-center">Description</th>
+          <th scope="col"  class="text-center">Price</th>
+          <th scope="col"  class="text-center">Promoted</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of products">
+          <th scope="row" class="text-center">{{p.id}}</th>
+          <td class="text-center">{{p.name}}</td>
+          <td class="text-center">{{p.description}}</td>
+          <td class="text-center">{{p.price}} DH</td>
+          <td class="text-center">
+            <button class="btn" (click)="promotionHandler(p)">
+              <i [class]="p.isPromoted?'bi bi-heart-fill':'bi bi-heart'" class="text-danger"></i>
+            </button>
+          </td>
+          <td *ngIf="authService.hasRole('ADMIN')">
+            <button class="btn btn-outline-info" (click)="editProductHandler(p)">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+          </td>
+          <td *ngIf="authService.hasRole('ADMIN')">
+            <button class="btn btn-danger" (click)="deleteProductHandler(p)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ul class="nav nav-pills d-flex align-items-center justify-content-center">
+      <li *ngFor="let item of [].constructor(totalPages); let i = index">
+        <a (click)="goToPage(i)" [ngClass]="i==currentPage? 'btn-success' : 'btn-outline-success'" class="btn ms-1">{{i}}</a>
+      </li>
+    </ul>
+  </div>
+</div>

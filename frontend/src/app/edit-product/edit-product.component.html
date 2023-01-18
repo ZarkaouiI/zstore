@@ -1,0 +1,35 @@
+<div class="container mt-3 col-md-6 offset-md-3">
+  <form [formGroup]="editProductFormGroup" (ngSubmit)="updateProductHandler()">
+    <div class="mb-3">
+      <label class="form-label">ID : </label>
+      <span>{{product.id}}</span>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Name : </label>
+      <input type="text" class="form-control" formControlName="name">
+      <small *ngIf="editProductFormGroup.controls['name'].errors && editProductFormGroup.controls['name'].touched" class="text-danger">
+        Product Name is required and should have at least 4 characters.
+      </small>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Description : </label>
+      <textarea type="text" class="form-control" formControlName="description">
+      </textarea>
+      <small *ngIf="editProductFormGroup.controls['description'].errors && editProductFormGroup.controls['description'].touched" class="text-danger">
+        Product description is required
+      </small>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Price : </label>
+      <input type="text" class="form-control" formControlName="price">
+      <small *ngIf="editProductFormGroup.controls['price'].errors && editProductFormGroup.controls['price'].touched" class="text-danger">
+        Product price is required and should be greater than 0.00
+      </small>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Promotion : </label>
+      <input type="checkbox" class="form-check" formControlName="isPromoted">
+    </div>
+    <button [disabled]="!editProductFormGroup.valid" class="btn btn-dark" type="submit">Update</button>
+  </form>
+</div>
